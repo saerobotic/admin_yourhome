@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#3e2723" />
+  <meta name="theme-color" content="#0f172a" />
   <title>HOME | YOUR HOME</title>
   <style>
     :root {
-      --coffee: #3e2723;
-      --terracotta: #a0522d;
-      --cream: #faf7f2;
+      --coffee: #0f172a;
+      --terracotta: #4f46e5;
+      --cream: #f6f7fb;
       --paper: #ffffff;
-      --line: #e2dbd0;
-      --muted: #776f66;
-      --green: #3f5a3a;
-      --shadow: 0 14px 34px rgba(62, 39, 35, .12);
+      --line: #e2e8f0;
+      --muted: #64748b;
+      --green: #059669;
+      --shadow: 0 14px 34px rgba(15, 23, 42, .12);
     }
     * { box-sizing: border-box; }
+    .hidden { display: none !important; }
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at top right, #ead2c2, transparent 34%), var(--cream);
+      background: radial-gradient(circle at top right, #e0e7ff, transparent 34%), var(--cream);
       color: var(--coffee);
       font-family: Poppins, Arial, sans-serif;
     }
@@ -28,15 +29,40 @@
     .intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
     .eyebrow { color: var(--terracotta); font-size: .75rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
     h1 { margin: 8px 0 8px; font: 700 clamp(2.2rem, 6vw, 4.5rem)/1 Georgia, serif; }
+    .header-logo { display: block; width: min(340px, 84vw); height: 96px; margin: 0 0 8px; object-fit: contain; object-position: left center; }
     .intro p { max-width: 520px; margin: 0; color: var(--muted); }
     .home-link { color: var(--terracotta); font-weight: 700; text-decoration: none; white-space: nowrap; }
     .home-link:hover { text-decoration: underline; }
+    .header-actions { display: flex; align-items: center; gap: 14px; }
+    .logout-button { border: 1px solid var(--line); border-radius: 7px; padding: 8px 11px; color: var(--coffee); background: var(--paper); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    .logout-button:hover { border-color: var(--terracotta); color: var(--terracotta); }
     .menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .menu a { display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: var(--coffee); border: 1px solid var(--coffee); border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
-    .menu a:hover { background: var(--terracotta); border-color: var(--terracotta); transform: translateY(-3px); }
+    .menu a { display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: #4338ca; border: 1px solid #4338ca; border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, filter .2s ease; }
+    .menu a:nth-child(2) { background: #0284c7; border-color: #0284c7; }
+    .menu a:nth-child(3) { background: #059669; border-color: #059669; }
+    .menu a:nth-child(4) { background: #9333ea; border-color: #9333ea; }
+    .menu a:nth-child(5) { background: #ea580c; border-color: #ea580c; }
+    .menu a:nth-child(6) { background: #e11d48; border-color: #e11d48; }
+    .menu a:hover { filter: brightness(.92); transform: translateY(-3px); }
     .menu strong { font: 700 1.25rem Georgia, serif; }
-    .menu span { color: #ead2c2; font-size: .82rem; }
+    .menu span { color: #e0e7ff; font-size: .82rem; }
     footer { margin-top: 34px; color: var(--muted); font-size: .75rem; }
+    .login { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+    .login-card { width: min(420px, 100%); padding: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
+    .login-logo { display: block; width: min(250px, 100%); height: 72px; margin: 0 auto 18px; object-fit: contain; }
+    .login-card h1 { font-size: 2rem; text-align: center; }
+    .login-card p { margin: 10px 0 0; color: var(--muted); text-align: center; font-size: .88rem; }
+    .login-form { display: grid; gap: 13px; margin-top: 28px; }
+    .login-field { display: grid; gap: 6px; color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .login-field input, .login-field select { width: 100%; border: 1px solid var(--line); border-radius: 7px; padding: 11px; color: var(--coffee); background: #fff; font: inherit; letter-spacing: 0; text-transform: none; }
+    .password-wrap { position: relative; display: block; }
+    .password-wrap input { padding-right: 46px; }
+    .password-toggle { position: absolute; top: 50%; right: 6px; transform: translateY(-50%); border: 0; padding: 7px; color: var(--muted); background: transparent; font-size: 1rem; line-height: 1; cursor: pointer; }
+    .remember-session { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .8rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+    .remember-session input { width: auto; margin: 0; }
+    .login-submit { border: 1px solid var(--terracotta); border-radius: 7px; padding: 11px; color: #fff; background: var(--terracotta); font: inherit; font-weight: 700; cursor: pointer; }
+    .login-submit:disabled { cursor: wait; opacity: .65; }
+    .login-status { min-height: 1.2em; margin: 0 !important; color: #b42318 !important; font-size: .8rem !important; }
     @media (max-width: 720px) {
       main { padding: 30px 14px 44px; }
       .intro { align-items: flex-start; flex-direction: column; }
@@ -46,26 +72,164 @@
   </style>
 </head>
 <body>
-  <main>
+  <section id="loginScreen" class="login">
+    <div class="login-card">
+      <img class="login-logo" src="https://ik.imagekit.io/o1hnx31yy/yh%20(2).png?tr=f-jpg" alt="YOUR HOME" />
+      <h1>C - Panel</h1>
+      <p>Masuk dengan ID Staf dan password Dashboard.</p>
+      <form id="loginForm" class="login-form">
+        <label class="login-field">ID Staf
+          <select id="staffId" autocomplete="username" required>
+            <option value="master">Master</option>
+            <option value="admin">Admin</option>
+            <option value="it">IT</option>
+          </select>
+        </label>
+        <label class="login-field">Password
+          <span class="password-wrap"><input id="staffPassword" type="password" autocomplete="current-password" required /><button id="togglePassword" class="password-toggle" type="button" aria-label="Tampilkan password" title="Tampilkan password">&#128065;</button></span>
+        </label>
+        <label class="remember-session"><input id="rememberSession" type="checkbox" /> Ingat login di perangkat ini</label>
+        <button id="loginButton" class="login-submit" type="submit">Masuk</button>
+        <p id="loginStatus" class="login-status" role="alert" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <main id="portal" class="hidden">
     <header class="intro">
       <div>
-        <div class="eyebrow">YOUR HOME</div>
-        <h1>HOME</h1>
+        <img id="adminHeaderLogo" class="header-logo" src="https://ik.imagekit.io/o1hnx31yy/yh%20(2).png?tr=f-jpg" alt="YOUR HOME" />
         <p>Pilih halaman yang ingin dibuka.</p>
       </div>
-      <a class="home-link" href="https://yourhome.com/" target="_blank" rel="noopener noreferrer">Kembali ke website utama</a>
+      <div class="header-actions">
+      <button id="logoutButton" class="logout-button" type="button">Logout</button>
+      </div>
     </header>
 
     <nav class="menu" aria-label="Navigasi halaman YOUR HOME">
-      <a class="accent" href="https://yourhome.com/" target="_blank" rel="noopener noreferrer"><strong>Website Utama</strong><span>Halaman depan YOUR HOME</span></a>
-      <a href="admin-properti.html" target="_blank" rel="noopener noreferrer"><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
-      <a href="check-in-crew-dashboard.html" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
-      <a href="owner-portal.html" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
-      <a href="dasbord.html" target="_blank" rel="noopener noreferrer"><strong>Keuangan & <br>Management</strong><span>Dashboard operasional</span></a>
-      <a href="check-in-crew.html" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
+      <a class="accent" href="https://yourhome.id/" target="_blank" rel="noopener noreferrer"><strong>Website Utama</strong><span>Halaman depan YOUR HOME</span></a>
+      <a href="https://yourhome.id/admin-properti.html" target="_blank" rel="noopener noreferrer"><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
+      <a href="https://yourhome.id/check-in-crew-dashboard.html" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
+      <a href="https://yourhome.id/owner-portal.html" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
+      <a href="https://yourhome.id/dasbord.html" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
+      <a href="https://yourhome.id/check-in-crew.html" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
       </nav>
 
     <footer>&copy; 2026 YOUR HOME</footer>
   </main>
+  <script>
+    const API_BASE = 'https://your-home-checkin-api.saerobotic.workers.dev';
+    const SESSION_KEY = 'yourhome_admin_portal_session';
+    const PERSISTENT_SESSION_KEY = 'yourhome_admin_portal_persistent_session';
+    const el = id => document.getElementById(id);
+
+    function showPortal() {
+      el('loginScreen').classList.add('hidden');
+      el('portal').classList.remove('hidden');
+    }
+
+    function showLogin(message = '') {
+      el('portal').classList.add('hidden');
+      el('loginScreen').classList.remove('hidden');
+      el('loginStatus').textContent = message;
+    }
+
+    function readSession() {
+      try {
+        const savedSession = localStorage.getItem(PERSISTENT_SESSION_KEY);
+        const session = JSON.parse(savedSession || sessionStorage.getItem(SESSION_KEY) || 'null');
+        if (!session?.token || Number(session.expiresAt) <= Date.now()) return null;
+        el('rememberSession').checked = Boolean(savedSession);
+        return session;
+      } catch {
+        return null;
+      }
+    }
+
+    async function verifySession(token) {
+      const response = await fetch(`${API_BASE}/dashboard/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: 'no-store',
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || 'Sesi tidak valid.');
+    }
+
+    el('loginForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const button = el('loginButton');
+      button.disabled = true;
+      el('loginStatus').textContent = 'Memverifikasi akun...';
+      try {
+        const response = await fetch(`${API_BASE}/dashboard/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account_id: el('staffId').value,
+            password: el('staffPassword').value,
+          }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok || !data.token) throw new Error(data.error || 'Login gagal.');
+        const session = JSON.stringify({
+          token: data.token,
+          expiresAt: Date.now() + (Number(data.expires_in) || 86400) * 1000,
+        });
+        if (el('rememberSession').checked) {
+          localStorage.setItem(PERSISTENT_SESSION_KEY, session);
+          sessionStorage.removeItem(SESSION_KEY);
+        } else {
+          sessionStorage.setItem(SESSION_KEY, session);
+          localStorage.removeItem(PERSISTENT_SESSION_KEY);
+        }
+        el('staffPassword').value = '';
+        showPortal();
+      } catch (error) {
+        el('loginStatus').textContent = error.message || 'Login gagal.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    el('logoutButton').addEventListener('click', () => {
+      sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(PERSISTENT_SESSION_KEY);
+      el('staffPassword').value = '';
+      showLogin('Anda sudah logout.');
+    });
+
+    el('togglePassword').addEventListener('click', () => {
+      const input = el('staffPassword');
+      const visible = input.type === 'password';
+      input.type = visible ? 'text' : 'password';
+      el('togglePassword').setAttribute('aria-label', visible ? 'Sembunyikan password' : 'Tampilkan password');
+      el('togglePassword').title = visible ? 'Sembunyikan password' : 'Tampilkan password';
+    });
+
+    async function loadDashboardLogo() {
+      try {
+        const response = await fetch(`${API_BASE}/settings`, { cache: 'no-store' });
+        const payload = await response.json();
+        const loginLogo = payload.data?.header_logo;
+        if (response.ok && payload.ok && loginLogo) el('adminHeaderLogo').src = loginLogo;
+      } catch {
+        // Keep the bundled logo when the settings service is unavailable.
+      }
+    }
+
+    loadDashboardLogo();
+
+    (async () => {
+      const session = readSession();
+      if (!session) return;
+      try {
+        await verifySession(session.token);
+        showPortal();
+      } catch {
+        sessionStorage.removeItem(SESSION_KEY);
+        localStorage.removeItem(PERSISTENT_SESSION_KEY);
+      }
+    })();
+  </script>
 </body>
 </html>
