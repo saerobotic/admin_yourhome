@@ -43,10 +43,25 @@
     .menu a:nth-child(4) { background: #9333ea; border-color: #9333ea; }
     .menu a:nth-child(5) { background: #ea580c; border-color: #ea580c; }
     .menu a:nth-child(6) { background: #e11d48; border-color: #e11d48; }
+    .menu a:nth-child(7) { background: #c2410c; border-color: #c2410c; }
     .menu a:hover { filter: brightness(.92); transform: translateY(-3px); }
     .menu strong { font: 700 1.25rem Georgia, serif; }
     .menu span { color: #e0e7ff; font-size: .82rem; }
-    footer { margin-top: 34px; color: var(--muted); font-size: .75rem; }
+    footer { margin-top: 34px; }
+    .footer-widgets { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .footer-copy { margin: 20px 0 0; color: var(--muted); font-size: .75rem; text-align: center; }
+    .domain-expiry { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 20px 22px; }
+    .domain-expiry h2 { margin: 0 0 4px; font: 700 1.1rem Georgia, serif; }
+    .domain-expiry .hint { margin: 0 0 16px; color: var(--muted); font-size: .85rem; }
+    .domain-countdown { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .domain-countdown-unit { padding: 14px 6px 12px; background: var(--cream); border: 1px solid var(--line); border-radius: 10px; text-align: center; }
+    .domain-countdown-unit:first-child { background: var(--coffee); border-color: var(--coffee); color: #fff; }
+    .domain-countdown-unit:first-child span { color: #cbd5e1; }
+    .domain-countdown-unit strong { display: block; font-size: 1.65rem; font-weight: 800; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+    .domain-countdown-unit span { display: block; margin-top: 4px; color: var(--muted); font-size: .74rem; font-weight: 600; }
+    .domain-expiry-status { margin: 12px 0 0; color: var(--muted); font-size: .8rem; }
+    @media (max-width: 720px) { .footer-widgets { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .domain-countdown-unit strong { font-size: 1.3rem; } }
     .login { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
     .login-card { width: min(420px, 100%); padding: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
     .login-logo { display: block; width: min(250px, 100%); height: 72px; margin: 0 auto 18px; object-fit: contain; }
@@ -111,9 +126,36 @@
       <a href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
       <a href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
       <a href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
+      <a href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
       </nav>
 
-    <footer>&copy; 2026 YOUR HOME</footer>
+    <footer>
+      <div class="footer-widgets">
+        <section class="domain-expiry" id="domainExpiryPanel" aria-labelledby="domainExpiryTitle">
+          <h2 id="domainExpiryTitle">Masa Aktif Domain</h2>
+          <p class="hint">yourhome.id, berakhir 23 September 2027</p>
+          <div class="domain-countdown" id="domainCountdown" role="timer" aria-live="off" aria-label="Hitung mundur masa aktif domain">
+            <div class="domain-countdown-unit"><strong id="domainDays">0</strong><span>Hari</span></div>
+            <div class="domain-countdown-unit"><strong id="domainHours">00</strong><span>Jam</span></div>
+            <div class="domain-countdown-unit"><strong id="domainMinutes">00</strong><span>Menit</span></div>
+            <div class="domain-countdown-unit"><strong id="domainSeconds">00</strong><span>Detik</span></div>
+          </div>
+          <p class="domain-expiry-status" id="domainExpiryStatus" role="status" aria-live="polite"></p>
+        </section>
+        <section class="domain-expiry" id="dbUpgradeExpiryPanel" aria-labelledby="dbUpgradeExpiryTitle">
+          <h2 id="dbUpgradeExpiryTitle">Upgrade Database</h2>
+          <p class="hint">Estimasi upgrade, 27 Maret 2027</p>
+          <div class="domain-countdown" id="dbUpgradeCountdown" role="timer" aria-live="off" aria-label="Hitung mundur jadwal upgrade database">
+            <div class="domain-countdown-unit"><strong id="dbUpgradeDays">0</strong><span>Hari</span></div>
+            <div class="domain-countdown-unit"><strong id="dbUpgradeHours">00</strong><span>Jam</span></div>
+            <div class="domain-countdown-unit"><strong id="dbUpgradeMinutes">00</strong><span>Menit</span></div>
+            <div class="domain-countdown-unit"><strong id="dbUpgradeSeconds">00</strong><span>Detik</span></div>
+          </div>
+          <p class="domain-expiry-status" id="dbUpgradeExpiryStatus" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+      <p class="footer-copy">&copy; 2026 YOUR HOME</p>
+    </footer>
   </main>
   <script>
     const API_BASE = 'https://your-home-checkin-api.saerobotic.workers.dev';
@@ -238,6 +280,39 @@
         // Biarkan pilihan bawaan Master bila daftar akun tidak dapat dimuat.
       }
     }
+
+    function renderCountdown(ids, targetTime, activeMessage, expiredMessage) {
+      const remaining = Math.max(0, targetTime - Date.now());
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      el(ids.days).textContent = days.toLocaleString('id-ID');
+      el(ids.hours).textContent = String(hours).padStart(2, '0');
+      el(ids.minutes).textContent = String(minutes).padStart(2, '0');
+      el(ids.seconds).textContent = String(seconds).padStart(2, '0');
+      el(ids.status).textContent = remaining ? activeMessage : expiredMessage;
+    }
+    const DOMAIN_EXPIRY_TARGET = new Date(2027, 8, 23, 23, 59, 59).getTime();
+    // 6 bulan sejak 27 September 2026 -> 27 Maret 2027
+    const DB_UPGRADE_TARGET = new Date(2027, 2, 27, 23, 59, 59).getTime();
+    function updateCountdowns() {
+      renderCountdown(
+        { days: 'domainDays', hours: 'domainHours', minutes: 'domainMinutes', seconds: 'domainSeconds', status: 'domainExpiryStatus' },
+        DOMAIN_EXPIRY_TARGET,
+        'Hitung mundur menuju akhir masa aktif domain.',
+        'Masa aktif domain sudah berakhir.'
+      );
+      renderCountdown(
+        { days: 'dbUpgradeDays', hours: 'dbUpgradeHours', minutes: 'dbUpgradeMinutes', seconds: 'dbUpgradeSeconds', status: 'dbUpgradeExpiryStatus' },
+        DB_UPGRADE_TARGET,
+        'Hitung mundur menuju jadwal upgrade database.',
+        'Jadwal upgrade database sudah lewat.'
+      );
+    }
+    updateCountdowns();
+    setInterval(updateCountdowns, 1000);
 
     loadDashboardLogo();
     loadLoginAccountOptions();
