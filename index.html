@@ -36,6 +36,7 @@
     .header-actions { display: flex; align-items: center; gap: 14px; }
     .logout-button { border: 1px solid var(--line); border-radius: 7px; padding: 8px 11px; color: var(--coffee); background: var(--paper); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
     .logout-button:hover { border-color: var(--terracotta); color: var(--terracotta); }
+    .portal-layout { display: grid; grid-template-columns: minmax(0, 1fr) 248px; align-items: start; gap: 18px; }
     .menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .menu a { position: relative; display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: #4338ca; border: 1px solid #4338ca; border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, filter .2s ease; }
     .notif-dot { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; box-shadow: 0 0 0 2px rgba(255,255,255,.4); }
@@ -51,6 +52,14 @@
     .menu a.coming-soon { background: #475569; border-color: #475569; cursor: default; position: relative; overflow: hidden; }
     .menu a.coming-soon:hover { filter: none; transform: none; }
     .menu a.coming-soon .ribbon { position: absolute; top: 16px; right: -34px; width: 130px; padding: 4px 0; background: #f59e0b; color: #7c2d12; font: 700 .68rem/1 Poppins, Arial, sans-serif; text-align: center; text-transform: uppercase; letter-spacing: .04em; transform: rotate(45deg); box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+    .linktree-panel { padding: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
+    .linktree-panel h2 { margin: 0; font: 700 1.05rem Georgia, serif; }
+    .linktree-panel p { margin: 4px 0 12px; color: var(--muted); font-size: .72rem; }
+    .linktree-links { display: grid; gap: 7px; }
+    .linktree-links a { display: flex; min-height: 36px; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 10px; color: var(--coffee); background: #f6f7fb; border: 1px solid var(--line); border-radius: 6px; font-size: .76rem; font-weight: 700; text-decoration: none; transition: border-color .15s ease, background .15s ease; }
+    .linktree-links a:hover { background: #eef2ff; border-color: #818cf8; }
+    .linktree-links a .linktree-number { color: var(--terracotta); font-size: .68rem; font-variant-numeric: tabular-nums; }
+    .linktree-links a .linktree-label { color: var(--coffee); }
     footer { margin-top: 34px; }
     .footer-widgets { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .footer-copy { margin: 20px 0 0; color: var(--muted); font-size: .75rem; text-align: center; }
@@ -97,6 +106,7 @@
       main { padding: 30px 14px 44px; }
       .intro { align-items: flex-start; flex-direction: column; }
       .menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .portal-layout { grid-template-columns: 1fr; }
     }
     @media (max-width: 430px) { .menu { grid-template-columns: 1fr; } }
   </style>
@@ -146,17 +156,37 @@
       </div>
     </header>
 
-    <nav class="menu" aria-label="Navigasi halaman YOUR HOME">
-      <a class="group-website" href="https://yourhome.id/" target="_blank" rel="noopener noreferrer"><strong>Website Utama</strong><span>Halaman depan YOUR HOME</span></a>
-      <a class="group-website" href="https://yourhome.id/admin-properti" target="_blank" rel="noopener noreferrer"><span class="notif-dot" id="feedbackNotifDot" title="Status masukan tamu" aria-hidden="true"></span><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
-      <a class="group-kosan" href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
-      <a class="group-checkin" href="https://yourhome.id/check-in-crew-dashboard" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
-      <a class="group-management" href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
-      <a class="group-kosan" href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
-      <a class="group-checkin" href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
-      <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Kelola Artikel<br>& Blog</strong><span>Tulis dan publikasikan artikel</span></a>
-      <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Website Artikel</strong><span>artikel.yourhome.id</span></a>
+    <div class="portal-layout">
+      <nav class="menu" aria-label="Navigasi halaman YOUR HOME">
+        <a class="group-website" href="https://yourhome.id/" target="_blank" rel="noopener noreferrer"><strong>Website Utama</strong><span>Halaman depan YOUR HOME</span></a>
+        <a class="group-website" href="https://yourhome.id/admin-properti" target="_blank" rel="noopener noreferrer"><span class="notif-dot" id="feedbackNotifDot" title="Status masukan tamu" aria-hidden="true"></span><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
+        <a class="group-kosan" href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
+        <a class="group-checkin" href="https://yourhome.id/check-in-crew-dashboard" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
+        <a class="group-management" href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
+        <a class="group-management" href="https://agen.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Agen Portal</strong><span>Booking &amp; fee agen/marketing</span></a>
+        <a class="group-kosan" href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
+        <a class="group-checkin" href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
+        <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Kelola Artikel<br>& Blog</strong><span>Tulis dan publikasikan artikel</span></a>
+        <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Website Artikel</strong><span>artikel.yourhome.id</span></a>
       </nav>
+
+      <aside class="linktree-panel" aria-labelledby="linktreeTitle">
+        <h2 id="linktreeTitle">Linktree</h2>
+        <p>10 tautan siap diisi</p>
+        <nav class="linktree-links" aria-label="Tautan tambahan">
+          <a href="#" data-linktree-index="1"><span class="linktree-number">01</span><span class="linktree-label">Tautan 01</span></a>
+          <a href="#" data-linktree-index="2"><span class="linktree-number">02</span><span class="linktree-label">Tautan 02</span></a>
+          <a href="#" data-linktree-index="3"><span class="linktree-number">03</span><span class="linktree-label">Tautan 03</span></a>
+          <a href="#" data-linktree-index="4"><span class="linktree-number">04</span><span class="linktree-label">Tautan 04</span></a>
+          <a href="#" data-linktree-index="5"><span class="linktree-number">05</span><span class="linktree-label">Tautan 05</span></a>
+          <a href="#" data-linktree-index="6"><span class="linktree-number">06</span><span class="linktree-label">Tautan 06</span></a>
+          <a href="#" data-linktree-index="7"><span class="linktree-number">07</span><span class="linktree-label">Tautan 07</span></a>
+          <a href="#" data-linktree-index="8"><span class="linktree-number">08</span><span class="linktree-label">Tautan 08</span></a>
+          <a href="#" data-linktree-index="9"><span class="linktree-number">09</span><span class="linktree-label">Tautan 09</span></a>
+          <a href="#" data-linktree-index="10"><span class="linktree-number">10</span><span class="linktree-label">Tautan 10</span></a>
+        </nav>
+      </aside>
+    </div>
 
     <footer>
       <div class="footer-widgets">
@@ -195,6 +225,29 @@
     function showPortal() {
       el('loginScreen').classList.add('hidden');
       el('portal').classList.remove('hidden');
+    }
+
+    function renderLinktree(settings) {
+      let links = [];
+      try {
+        const parsed = JSON.parse(settings.linktree_links || '[]');
+        if (Array.isArray(parsed)) links = parsed;
+      } catch { /* gunakan tautan placeholder */ }
+      document.querySelectorAll('[data-linktree-index]').forEach(anchor => {
+        const index = Number(anchor.dataset.linktreeIndex) - 1;
+        const link = links[index] || {};
+        const label = String(link.label || '').trim() || `Tautan ${String(index + 1).padStart(2, '0')}`;
+        const url = String(link.url || '').trim();
+        let safeUrl = '#';
+        try {
+          const parsedUrl = new URL(url, window.location.href);
+          if (['http:', 'https:', 'mailto:', 'tel:'].includes(parsedUrl.protocol)) safeUrl = url || '#';
+        } catch { /* biarkan tetap menjadi placeholder */ }
+        anchor.href = safeUrl;
+        anchor.target = /^https?:\/\//i.test(safeUrl) ? '_blank' : '';
+        anchor.rel = anchor.target ? 'noopener noreferrer' : '';
+        anchor.querySelector('.linktree-label').textContent = label;
+      });
     }
 
     async function loadFeedbackNotifDot(token) {
@@ -300,6 +353,7 @@
         const response = await fetch(`${API_BASE}/settings`, { cache: 'no-store' });
         const payload = await response.json();
         if (!response.ok || !payload.ok) return;
+        renderLinktree(payload.data || {});
         const loginLogo = payload.data?.header_logo;
         if (loginLogo) el('adminHeaderLogo').src = loginLogo;
         const whiteLogo = payload.data?.dashboard_logo || loginLogo || payload.data?.footer_logo;
