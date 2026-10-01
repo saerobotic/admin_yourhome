@@ -37,24 +37,12 @@
     .logout-button { border: 1px solid var(--line); border-radius: 7px; padding: 8px 11px; color: var(--coffee); background: var(--paper); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
     .logout-button:hover { border-color: var(--terracotta); color: var(--terracotta); }
     .menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-<<<<<<< HEAD
-    .menu a { position: relative; display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: #4338ca; border: 1px solid #4338ca; border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, filter .2s ease; }
-=======
     .menu a { display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: #4338ca; border: 1px solid #4338ca; border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, filter .2s ease; }
->>>>>>> d852f3d79a170adb2b83daa1243b254f6ab4b7f7
     .menu a.group-website { background: #4338ca; border-color: #4338ca; }
     .menu a.group-checkin { background: #059669; border-color: #059669; }
     .menu a.group-management { background: #9333ea; border-color: #9333ea; }
     .menu a.group-kosan { background: #c2410c; border-color: #c2410c; }
-<<<<<<< HEAD
-    .menu a.group-feedback { background: #1e293b; border-color: #1e293b; }
-    .menu a.group-key { background: #92400e; border-color: #92400e; }
-=======
->>>>>>> d852f3d79a170adb2b83daa1243b254f6ab4b7f7
     .menu a:hover { filter: brightness(.92); transform: translateY(-3px); }
-    .notif-dot { position: absolute; top: 14px; right: 14px; width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; box-shadow: 0 0 0 3px rgba(255,255,255,.18); transition: background .2s ease; }
-    .notif-dot.is-red { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.3), 0 0 8px rgba(239,68,68,.6); }
-    .notif-dot.is-green { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.25); }
     .menu strong { font: 700 1.25rem Georgia, serif; }
     .menu span { color: #e0e7ff; font-size: .82rem; }
     .menu a.coming-soon { background: #475569; border-color: #475569; cursor: default; position: relative; overflow: hidden; }
@@ -160,21 +148,11 @@
       <a class="group-website" href="https://yourhome.id/admin-properti" target="_blank" rel="noopener noreferrer"><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
       <a class="group-kosan" href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
       <a class="group-checkin" href="https://yourhome.id/check-in-crew-dashboard" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
-<<<<<<< HEAD
-      <a class="group-feedback" href="admin-qr-kritik-saran.html" target="_blank" rel="noopener noreferrer"><span id="feedbackNotifDot" class="notif-dot" title="Memuat status masukan tamu..."></span><strong>QR Kritik &amp; Saran</strong><span>Generate stiker &amp; lihat masukan tamu</span></a>
-      <a class="group-kosan" href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
-      <a class="group-checkin" href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
-      <a class="group-key" href="key-room.html" target="_blank" rel="noopener noreferrer"><strong>Key Room</strong><span>Password pintu &amp; akses crew per properti</span></a>
-      <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Kelola Artikel<br>& Blog</strong><span>Tulis dan publikasikan artikel</span></a>
-      <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Website Artikel</strong><span>artikel.yourhome.id</span></a>
-      <a class="group-management" href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
-=======
       <a class="group-management" href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
       <a class="group-kosan" href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
       <a class="group-checkin" href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
       <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Kelola Artikel<br>& Blog</strong><span>Tulis dan publikasikan artikel</span></a>
       <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Website Artikel</strong><span>artikel.yourhome.id</span></a>
->>>>>>> d852f3d79a170adb2b83daa1243b254f6ab4b7f7
       </nav>
 
     <footer>
@@ -210,32 +188,10 @@
     const SESSION_KEY = 'yourhome_admin_portal_session';
     const PERSISTENT_SESSION_KEY = 'yourhome_admin_portal_persistent_session';
     const el = id => document.getElementById(id);
-    let currentToken = '';
 
-    function showPortal(token = '') {
-      if (token) currentToken = token;
+    function showPortal() {
       el('loginScreen').classList.add('hidden');
       el('portal').classList.remove('hidden');
-      loadFeedbackNotification();
-    }
-
-    async function loadFeedbackNotification() {
-      const dot = el('feedbackNotifDot');
-      if (!dot || !currentToken) return;
-      try {
-        const response = await fetch(`${API_BASE}/admin/guest-feedback/unread-count`, {
-          headers: { Authorization: `Bearer ${currentToken}` },
-          cache: 'no-store',
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || 'Gagal memuat status.');
-        const count = Number(data.data?.count || 0);
-        dot.classList.remove('is-red', 'is-green');
-        dot.classList.add(count > 0 ? 'is-red' : 'is-green');
-        dot.title = count > 0 ? `${count} masukan tamu belum dibaca` : 'Tidak ada masukan baru';
-      } catch {
-        // Biarkan warna abu-abu bawaan bila status gagal dimuat.
-      }
     }
 
     function showLogin(message = '') {
@@ -293,7 +249,7 @@
           localStorage.removeItem(PERSISTENT_SESSION_KEY);
         }
         el('staffPassword').value = '';
-        showPortal(data.token);
+        showPortal();
       } catch (error) {
         el('loginStatus').textContent = error.message || 'Login gagal.';
       } finally {
@@ -402,7 +358,7 @@
       if (!session) return;
       try {
         await verifySession(session.token);
-        showPortal(session.token);
+        showPortal();
       } catch {
         sessionStorage.removeItem(SESSION_KEY);
         localStorage.removeItem(PERSISTENT_SESSION_KEY);
