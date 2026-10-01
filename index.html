@@ -37,7 +37,10 @@
     .logout-button { border: 1px solid var(--line); border-radius: 7px; padding: 8px 11px; color: var(--coffee); background: var(--paper); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
     .logout-button:hover { border-color: var(--terracotta); color: var(--terracotta); }
     .menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .menu a { display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: #4338ca; border: 1px solid #4338ca; border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, filter .2s ease; }
+    .menu a { position: relative; display: flex; min-height: 132px; flex-direction: column; justify-content: space-between; padding: 20px; color: #fff; background: #4338ca; border: 1px solid #4338ca; border-radius: 12px; box-shadow: var(--shadow); text-decoration: none; transition: transform .2s ease, filter .2s ease; }
+    .notif-dot { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; background: #94a3b8; box-shadow: 0 0 0 2px rgba(255,255,255,.4); }
+    .notif-dot.red { background: #dc2626; }
+    .notif-dot.green { background: #16a34a; }
     .menu a.group-website { background: #4338ca; border-color: #4338ca; }
     .menu a.group-checkin { background: #059669; border-color: #059669; }
     .menu a.group-management { background: #9333ea; border-color: #9333ea; }
@@ -145,7 +148,7 @@
 
     <nav class="menu" aria-label="Navigasi halaman YOUR HOME">
       <a class="group-website" href="https://yourhome.id/" target="_blank" rel="noopener noreferrer"><strong>Website Utama</strong><span>Halaman depan YOUR HOME</span></a>
-      <a class="group-website" href="https://yourhome.id/admin-properti" target="_blank" rel="noopener noreferrer"><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
+      <a class="group-website" href="https://yourhome.id/admin-properti" target="_blank" rel="noopener noreferrer"><span class="notif-dot" id="feedbackNotifDot" title="Status masukan tamu" aria-hidden="true"></span><strong>Admin Website <br>(Input Data)</strong><span>Edit nama, harga, foto, dan metadata</span></a>
       <a class="group-kosan" href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
       <a class="group-checkin" href="https://yourhome.id/check-in-crew-dashboard" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
       <a class="group-management" href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
@@ -192,6 +195,25 @@
     function showPortal() {
       el('loginScreen').classList.add('hidden');
       el('portal').classList.remove('hidden');
+    }
+
+    async function loadFeedbackNotifDot(token) {
+      const dot = el('feedbackNotifDot');
+      if (!dot) return;
+      try {
+        const response = await fetch(`${API_BASE}/admin/guest-feedback/unread-count`, {
+          headers: { Authorization: `Bearer ${token}` },
+          cache: 'no-store',
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error();
+        const hasUnread = Number(data.data?.count || 0) > 0;
+        dot.classList.remove('red', 'green');
+        dot.classList.add(hasUnread ? 'red' : 'green');
+        dot.title = hasUnread ? 'Ada masukan tamu belum dibaca' : 'Tidak ada masukan tamu baru';
+      } catch {
+        dot.classList.remove('red', 'green');
+      }
     }
 
     function showLogin(message = '') {
@@ -250,6 +272,7 @@
         }
         el('staffPassword').value = '';
         showPortal();
+        loadFeedbackNotifDot(data.token);
       } catch (error) {
         el('loginStatus').textContent = error.message || 'Login gagal.';
       } finally {
@@ -359,6 +382,7 @@
       try {
         await verifySession(session.token);
         showPortal();
+        loadFeedbackNotifDot(session.token);
       } catch {
         sessionStorage.removeItem(SESSION_KEY);
         localStorage.removeItem(PERSISTENT_SESSION_KEY);
