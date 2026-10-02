@@ -54,7 +54,8 @@
     .menu span { color: #e0e7ff; font-size: .82rem; }
     .menu a.coming-soon { background: #475569; border-color: #475569; cursor: default; position: relative; overflow: hidden; }
     .menu a.coming-soon:hover { filter: none; transform: none; }
-    .menu a.coming-soon .ribbon { position: absolute; top: 16px; right: -34px; width: 130px; padding: 4px 0; background: #f59e0b; color: #7c2d12; font: 700 .68rem/1 Poppins, Arial, sans-serif; text-align: center; text-transform: uppercase; letter-spacing: .04em; transform: rotate(45deg); box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+    .menu a.coming-soon .ribbon, .menu a.dummy-card .ribbon { position: absolute; top: 16px; right: -34px; width: 130px; padding: 4px 0; background: #f59e0b; color: #7c2d12; font: 700 .68rem/1 Poppins, Arial, sans-serif; text-align: center; text-transform: uppercase; letter-spacing: .04em; transform: rotate(45deg); box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+    .menu a.dummy-card { overflow: hidden; }
     .linktree-panel { padding: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
     .linktree-panel h2 { margin: 0; font: 700 1.05rem Georgia, serif; }
     .linktree-panel p { margin: 4px 0 12px; color: var(--muted); font-size: .72rem; }
@@ -213,7 +214,7 @@
         <a class="group-kosan" href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
         <a class="group-checkin" href="https://yourhome.id/check-in-crew-dashboard" target="_blank" rel="noopener noreferrer"><strong>Dashboard <br>Check-in Crew</strong><span>Riwayat dan rekap crew</span></a>
         <a class="group-management" href="https://owner.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Owner Portal</strong><span>Portal pemilik properti</span></a>
-        <a class="group-kosan" href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
+        <a class="group-kosan dummy-card" href="https://yourhome.id/kosan" target="_blank" rel="noopener noreferrer"><i class="ribbon">Dummy</i><strong>Manajemen Kosan</strong><span>Kamar, penyewa, pembayaran & MOU</span></a>
         <a class="group-checkin" href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
         <a class="group-management" href="https://agen.yourhome.id" target="_blank" rel="noopener noreferrer"><strong>Agen Portal</strong><span>Booking &amp; fee agen/marketing</span></a>
         <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Website Artikel</strong><span>artikel.yourhome.id</span></a>
