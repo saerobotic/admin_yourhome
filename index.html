@@ -209,7 +209,7 @@
         <a class="group-kosan" href="https://yourhome.id/dasbord" target="_blank" rel="noopener noreferrer"><strong>Dasbord<br>Management</strong><span>Dashboard operasional</span></a>
         <a class="group-checkin" href="https://yourhome.id/check-in-crew" target="_blank" rel="noopener noreferrer"><strong>Check-in Crew</strong><span>check-in crew</span></a>
         <a class="group-guide" href="https://yourhome.id/panduan" target="_blank" rel="noopener noreferrer"><strong>Buku Panduan</strong><span>Cara pakai sistem untuk crew, admin & operasional</span></a>
-        <a class="group-it" href="https://yourhome.id/lapor-it" target="_blank" rel="noopener noreferrer"><strong>Lapor ke IT<br>Support</strong><span>Laporkan bug atau kendala teknis</span></a>
+        <a class="group-it" href="https://yourhome.id/lapor-it" target="_blank" rel="noopener noreferrer"><span class="notif-dot" id="itReplyNotifDot" title="Status balasan tiket IT" aria-hidden="true"></span><strong>Lapor ke IT<br>Support</strong><span>Laporkan bug atau kendala teknis</span></a>
         <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Kelola Artikel<br>& Blog</strong><span>Tulis dan publikasikan artikel</span></a>
         <a class="coming-soon" href="#" aria-disabled="true" onclick="return false;"><i class="ribbon">Coming Soon</i><strong>Website Artikel</strong><span>artikel.yourhome.id</span></a>
       </nav>
@@ -820,6 +820,25 @@
       }
     }
 
+    async function loadItReplyNotifDot(token) {
+      const dot = el('itReplyNotifDot');
+      if (!dot) return;
+      try {
+        const response = await fetch(`${API_BASE}/my-it-tickets/unread-count`, {
+          headers: { Authorization: `Bearer ${token}` },
+          cache: 'no-store',
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error();
+        const hasUnread = Number(data.data?.count || 0) > 0;
+        dot.classList.remove('red', 'green');
+        dot.classList.add(hasUnread ? 'red' : 'green');
+        dot.title = hasUnread ? 'Ada balasan IT Support belum dibaca' : 'Tidak ada balasan baru';
+      } catch {
+        dot.classList.remove('red', 'green');
+      }
+    }
+
     function showLogin(message = '') {
       el('portal').classList.add('hidden');
       el('loginScreen').classList.remove('hidden');
@@ -877,6 +896,7 @@
         el('staffPassword').value = '';
         showPortal();
         loadFeedbackNotifDot(data.token);
+        loadItReplyNotifDot(data.token);
         loadEmployeeAttendance(data.token);
       } catch (error) {
         el('loginStatus').textContent = error.message || 'Login gagal.';
@@ -1015,6 +1035,7 @@
         await verifySession(session.token);
         showPortal();
         loadFeedbackNotifDot(session.token);
+        loadItReplyNotifDot(session.token);
         loadEmployeeAttendance(session.token);
       } catch {
         sessionStorage.removeItem(SESSION_KEY);
